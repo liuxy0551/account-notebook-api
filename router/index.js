@@ -1,10 +1,19 @@
 const Router = require('koa-router')
 const getOpenId = require('../utils/getOpenId')
+const { version } = require('../package.json')
 const { getUserInfo, updateUserInfo, updateUserAutoSync, getAccountList, getTagList, updateAccountData, updateTagData } = require('../utils/mongodb')
 
 const router = new Router()
 
 module.exports = app => {
+    router.get('/', async (ctx) => {
+        try {
+            ctx.body = `hello, account-notebook, v${version}`
+        } catch (error) {
+            ctx.body = { code: 1, error }
+        }
+    })
+
     router.post('/v1/getOpenId', async (ctx) => {
         try {
             const { code } = ctx.request.body
